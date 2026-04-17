@@ -20,6 +20,9 @@ VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN", "").strip()
 OWNER_NUMBER = "919265335430"
 OWN_PHONE_IDS: set[str] = set()
 
+# Deduplicate Meta webhook retries — store seen message IDs (bounded to last 10k)
+_seen_message_ids: set[str] = set()
+
 
 @app.get("/webhook")
 async def verify_webhook(request: Request):
@@ -70,6 +73,15 @@ async def handle_webhook(request: Request):
         if message.get("type") != "text":
             logger.info(f"Skipping non-text message type: {message.get('type')}")
             return {"status": "ok"}
+
+        msg_id = message.get("id", "")
+        if msg_id and msg_id in _seen_message_ids:
+            logger.info(f"Duplicate message ID {msg_id} — skipping")
+            return {"status": "ok"}
+        if msg_id:
+            _seen_message_ids.add(msg_id)
+            if len(_seen_message_ids) > 10000:
+                _seen_message_ids.clear()
 
         wa_id = message["from"]
         text = message["text"]["body"]

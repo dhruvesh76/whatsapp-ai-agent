@@ -219,9 +219,10 @@ SHORTHAND – these are all valid NEW_PARENT messages:
 - ok/yes/no/sure/can/done/thanks = short replies in conversation
 - Any number + subject + level combo = NEW_PARENT
 
-NEW_PARENT – greetings, service questions, sharing child details, shorthand replies, ANY ambiguous message
+NEW_PARENT – greetings, sharing child details, shorthand replies, expressing a need or intent ("I'm looking for...", "I want...", "need a tutor for...", "looking for piano/violin/math tutor"), ANY ambiguous message
 COMPLAINT_URGENT – ONLY if explicitly: cancel class, refund, complaint about tutor, technical issue
-FAQ – any question about whether a service is available, what subjects or levels are offered, pricing, or any information-seeking without sharing specific personal enrollment details. Examples: "Do you provide X?", "Do you have Y classes?", "Do you teach piano?", "How much does it cost?" — ALL treated as FAQ
+FAQ – ONLY pure information questions with no expressed personal need. Examples: "Do you provide X?", "Do you have Y classes?", "How much does it cost?", "What are your rates?", "How long to find a tutor?"
+CRITICAL: "I'm looking for X tuition/tutor" = NEW_PARENT (intent), NOT FAQ. "Do you provide X?" = FAQ (question).
 OTHER – tutor asking about assignments, business partnership, nothing else fits
 
 WHEN IN DOUBT: NEW_PARENT.
@@ -297,23 +298,16 @@ async def run_geraldine(wa_id: str, text: str) -> str:
     return reply
 
 
-FAQ_FOLLOWUP_PROMPT = """You are Geraldine Goh from Nanyang Tuition. You just answered a parent's general question.
-Now send ONE short follow-up message (2-3 lines max) that naturally transitions to asking about their child's tuition needs.
-Ask what subject and level their child needs help with.
-WhatsApp style — warm, short, no bullet points, use 😊.
-Do NOT repeat the FAQ answer. Just the follow-up transition."""
+FAQ_FOLLOWUP = "By the way, are you looking to arrange tuition for your child? 😊\n\nDo share the subject and level — I'll help find the right tutor for you!"
 
 
-async def _faq_with_followup(wa_id: str, text: str) -> list[str]:
+async def _faq_with_followup(wa_id: str, text: str) -> list[str] | str:
     faq_answer = await run_faq(wa_id, text)
-    resp = await client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "system", "content": FAQ_FOLLOWUP_PROMPT}],
-        temperature=0.3,
-        max_tokens=80,
-    )
-    followup = resp.choices[0].message.content or ""
-    return [faq_answer, followup]
+    user_state = st.get_state(wa_id)
+    # Only add follow-up if parent hasn't already started the enrollment flow
+    if len(user_state.history) == 0:
+        return [faq_answer, FAQ_FOLLOWUP]
+    return faq_answer
 
 
 async def run_faq(wa_id: str, text: str) -> str:
