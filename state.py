@@ -33,3 +33,7 @@ def reset_conversation(wa_id: str):
 def mark_owner_takeover(wa_id: str):
     state = get_state(wa_id)
     state.status = Status.OWNER_TAKEN_OVER
+
+
+def reset_all():
+    _states.clear()

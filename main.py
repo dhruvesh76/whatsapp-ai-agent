@@ -92,14 +92,24 @@ async def handle_webhook(request: Request):
             logger.info(f"Skipping message from own number: {wa_id}")
             return {"status": "ok"}
 
-        # Owner takeover command: owner sends "STOP 91xxxxxxxxxx"
+        # Owner commands
         if wa_id == OWNER_NUMBER:
             stripped = text.strip()
-            if stripped.upper().startswith("STOP "):
+            cmd = stripped.upper()
+            if cmd.startswith("STOP "):
                 target = stripped[5:].strip().replace("+", "").replace(" ", "")
                 st.mark_owner_takeover(target)
                 await send_message(OWNER_NUMBER, f"✅ Bot stopped for +{target}. You have full control.")
                 logger.info(f"Owner takeover for {target}")
+            elif cmd.startswith("RESET "):
+                target = stripped[6:].strip().replace("+", "").replace(" ", "")
+                st.reset_conversation(target)
+                await send_message(OWNER_NUMBER, f"✅ Conversation reset for +{target}. Bot will treat them as new.")
+                logger.info(f"Conversation reset for {target}")
+            elif cmd == "RESET ALL":
+                st.reset_all()
+                await send_message(OWNER_NUMBER, "✅ All conversations reset.")
+                logger.info("All conversations reset by owner")
             return {"status": "ok"}
 
         # Buffer message — fires callback after 10s of silence
