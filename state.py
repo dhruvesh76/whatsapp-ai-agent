@@ -5,6 +5,7 @@ from enum import Enum
 class Status(Enum):
     ACTIVE = "active"
     COMPLETED = "completed"
+    OWNER_TAKEN_OVER = "owner_taken_over"
 
 
 @dataclass
@@ -27,3 +28,8 @@ def reset_conversation(wa_id: str):
     state = get_state(wa_id)
     state.history = []
     state.status = Status.ACTIVE
+
+
+def mark_owner_takeover(wa_id: str):
+    state = get_state(wa_id)
+    state.status = Status.OWNER_TAKEN_OVER

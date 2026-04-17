@@ -297,6 +297,25 @@ async def run_geraldine(wa_id: str, text: str) -> str:
     return reply
 
 
+FAQ_FOLLOWUP_PROMPT = """You are Geraldine Goh from Nanyang Tuition. You just answered a parent's general question.
+Now send ONE short follow-up message (2-3 lines max) that naturally transitions to asking about their child's tuition needs.
+Ask what subject and level their child needs help with.
+WhatsApp style — warm, short, no bullet points, use 😊.
+Do NOT repeat the FAQ answer. Just the follow-up transition."""
+
+
+async def _faq_with_followup(wa_id: str, text: str) -> list[str]:
+    faq_answer = await run_faq(wa_id, text)
+    resp = await client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "system", "content": FAQ_FOLLOWUP_PROMPT}],
+        temperature=0.3,
+        max_tokens=80,
+    )
+    followup = resp.choices[0].message.content or ""
+    return [faq_answer, followup]
+
+
 async def run_faq(wa_id: str, text: str) -> str:
     if wa_id not in _faq_history:
         _faq_history[wa_id] = []
@@ -357,8 +376,7 @@ async def _send_completion_summary(wa_id: str, history: list[dict]):
         f"- Extract ONLY what the parent actually said. Word for word where possible.\n"
         f"- Do NOT infer, guess, or add anything the parent did not explicitly state.\n"
         f"- If a field was not mentioned, write: Not provided\n\n"
-        f"Output EXACTLY:\n\n"
-        f"*New Lead Summary:*\n\n"
+        f"Output EXACTLY this format, no extra text:\n\n"
         f"*Name:* [name]\n"
         f"*Phone:* +{wa_id}\n"
         f"*Postal Code:* [postal code]\n\n"
@@ -370,7 +388,7 @@ async def _send_completion_summary(wa_id: str, history: list[dict]):
         f"*Lessons Per Week:* [number]\n"
         f"*Male Tutor:* [Yes/No/Not mentioned]\n"
         f"*Remarks:* [exact words from parent or: Not provided]\n\n"
-        f"Bold labels with *asterisks*. Blank lines between sections.\n\n"
+        f"Use *asterisks* for bold labels only. Blank lines between sections exactly as shown.\n\n"
         f"Conversation:\n"
         + "\n".join(f"{m['role'].upper()}: {m['content']}" for m in history)
     )
@@ -387,15 +405,20 @@ async def _send_completion_summary(wa_id: str, history: list[dict]):
             temperature=0.2,
         )
         summary = resp.choices[0].message.content or ""
-        owner_msg = f"⚠️ *New Enquiry Summary*\n\n{summary}"
+        owner_msg = f"⚠️ New Enquiry Summary\n\n{summary}"
         await send_message(OWNER_NUMBER, owner_msg)
         logger.info(f"Completion summary sent to owner for {wa_id}")
     except Exception as e:
         logger.error(f"Failed to send completion summary: {e}")
 
 
-async def process_message(wa_id: str, text: str) -> str | None:
+async def process_message(wa_id: str, text: str) -> str | list[str] | None:
     user_state = st.get_state(wa_id)
+
+    # ── Owner taken over — stay silent forever ────────────────────────────────
+    if user_state.status == st.Status.OWNER_TAKEN_OVER:
+        logger.info(f"Owner has taken over {wa_id} — bot silent")
+        return None
 
     # ── Post-completion routing ───────────────────────────────────────────────
     if user_state.status == st.Status.COMPLETED:
@@ -408,10 +431,10 @@ async def process_message(wa_id: str, text: str) -> str | None:
         elif category == "COMPLAINT_URGENT":
             return await handle_complaint(wa_id, text)
         elif category == "FAQ":
-            return await run_faq(wa_id, text)
+            return await _faq_with_followup(wa_id, text)
         else:
-            # IGNORE → send a fallback (matches n8n Pick Fallback Message node)
-            return random.choice(FALLBACK_MESSAGES)
+            # IGNORE (ok/thanks/noted) → stay silent
+            return None
 
     # ── Active conversation — classify EVERY message ──────────────────────────
     category = await classify_new_message(text)
@@ -420,7 +443,7 @@ async def process_message(wa_id: str, text: str) -> str | None:
     if category == "COMPLAINT_URGENT":
         return await handle_complaint(wa_id, text)
     elif category == "FAQ":
-        return await run_faq(wa_id, text)
+        return await _faq_with_followup(wa_id, text)
     elif category == "OTHER":
         # Other (business partner, tutor inquiry) → fallback (matches n8n)
         return random.choice(FALLBACK_MESSAGES)

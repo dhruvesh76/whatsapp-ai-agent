@@ -1,4 +1,5 @@
 import os
+import asyncio
 import logging
 from dotenv import load_dotenv
 
@@ -7,6 +8,7 @@ load_dotenv()  # Must run before any other imports that use env vars
 from fastapi import FastAPI, Request, Response
 import pipeline
 import debounce
+import state as st
 from whatsapp import send_message
 
 logging.basicConfig(level=logging.INFO)
@@ -15,7 +17,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI()
 
 VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN", "").strip()
-# Add your team's own WhatsApp numbers here to prevent the bot from replying to itself
+OWNER_NUMBER = "919265335430"
 OWN_PHONE_IDS: set[str] = set()
 
 
@@ -37,9 +39,15 @@ async def verify_webhook(request: Request):
 async def process_and_send(wa_id: str, combined_text: str):
     try:
         reply = await pipeline.process_message(wa_id, combined_text)
-        if reply:
-            result = await send_message(wa_id, reply)
-            logger.info(f"Sent reply to {wa_id}: {result}")
+        if not reply:
+            return
+        messages = [reply] if isinstance(reply, str) else reply
+        for msg in messages:
+            if msg:
+                result = await send_message(wa_id, msg)
+                logger.info(f"Sent reply to {wa_id}: {result}")
+                if len(messages) > 1:
+                    await asyncio.sleep(1.5)
     except Exception as e:
         logger.error(f"Pipeline error for {wa_id}: {e}", exc_info=True)
 
@@ -64,14 +72,23 @@ async def handle_webhook(request: Request):
             return {"status": "ok"}
 
         wa_id = message["from"]
+        text = message["text"]["body"]
+        logger.info(f"Message from {wa_id}: {text}")
 
         # Skip messages from own number to avoid echo loops
         if wa_id in OWN_PHONE_IDS:
             logger.info(f"Skipping message from own number: {wa_id}")
             return {"status": "ok"}
 
-        text = message["text"]["body"]
-        logger.info(f"Message from {wa_id}: {text}")
+        # Owner takeover command: owner sends "STOP 91xxxxxxxxxx"
+        if wa_id == OWNER_NUMBER:
+            stripped = text.strip()
+            if stripped.upper().startswith("STOP "):
+                target = stripped[5:].strip().replace("+", "").replace(" ", "")
+                st.mark_owner_takeover(target)
+                await send_message(OWNER_NUMBER, f"✅ Bot stopped for +{target}. You have full control.")
+                logger.info(f"Owner takeover for {target}")
+            return {"status": "ok"}
 
         # Buffer message — fires callback after 10s of silence
         await debounce.add_message(wa_id, text, process_and_send)
