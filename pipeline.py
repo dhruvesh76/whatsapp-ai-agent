@@ -298,15 +298,13 @@ async def run_geraldine(wa_id: str, text: str) -> str:
     return reply
 
 
-FAQ_FOLLOWUP = "By the way, are you looking to arrange tuition for your child? 😊\n\nDo share the subject and level — I'll help find the right tutor for you!"
-
-
 async def _faq_with_followup(wa_id: str, text: str) -> list[str] | str:
     faq_answer = await run_faq(wa_id, text)
     user_state = st.get_state(wa_id)
-    # Only add follow-up if parent hasn't already started the enrollment flow
+    # Only transition into Geraldine's sales flow if parent hasn't already started it
     if len(user_state.history) == 0:
-        return [faq_answer, FAQ_FOLLOWUP]
+        geraldine_reply = await run_geraldine(wa_id, text)
+        return [faq_answer, geraldine_reply]
     return faq_answer
 
 
