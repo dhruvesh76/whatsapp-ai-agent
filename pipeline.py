@@ -433,7 +433,7 @@ def _is_silent(text: str, has_history: bool) -> bool:
     low = text.strip().lower()
     if low in _FAREWELL_WORDS:
         return True
-    if low in _STANDALONE_ACKS and not has_history:
+    if low in _STANDALONE_ACKS:
         return True
     return False
 
