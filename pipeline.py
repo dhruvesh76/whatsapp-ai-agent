@@ -240,13 +240,18 @@ POST_COMPLETE_CLASSIFIER_SYSTEM = """This person's tuition enquiry was already c
 
 Classify their NEW message into ONE category:
 
-WANTS_NEW_TUTOR – wants tuition for a NEW subject or different level. Keywords: another subject, also want, new tutor, additional, english also, maths too.
+WANTS_NEW_TUTOR – re-engaging or wanting help. Includes:
+- Greetings: "hey", "hi", "hello", "good morning", "good day"
+- Wants tuition for a NEW subject or different level: "another subject", "also want", "new tutor", "additional", "english also", "maths too"
+- Any new enquiry or intent to get a tutor
 
-COMPLAINT_URGENT – cancel class, refund, complaint about tutor, technical issue.
+COMPLAINT_URGENT – ONLY if explicitly about an active Nanyang Tuition service issue: cancel a scheduled class, request a refund, complaint about a tutor they are currently engaged through Nanyang Tuition, payment or technical issue with Nanyang Tuition.
 
-FAQ – asking a question about services, pricing, scheduling, tutors, AEIS, online lessons, special needs.
+FAQ – asking a pure information question about services, pricing, scheduling, tutors, AEIS, online lessons, special needs.
 
-IGNORE – casual follow-ups, thank you messages, ok noted.
+IGNORE – casual closings only: "thank you", "thanks", "ok noted", "noted", "ok", "great", "sounds good" — ONLY when clearly wrapping up, not when starting fresh.
+
+WHEN IN DOUBT: WANTS_NEW_TUTOR.
 
 Respond with ONLY one word: WANTS_NEW_TUTOR or COMPLAINT_URGENT or FAQ or IGNORE"""
 
