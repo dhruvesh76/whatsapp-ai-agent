@@ -218,9 +218,16 @@ SHORTHAND – these are all valid NEW_PARENT messages:
 - per wk/pw/3x/4x/once a week/twice a week = lessons per week
 - ok/yes/no/sure/can/done/thanks = short replies in conversation
 - Any number + subject + level combo = NEW_PARENT
+- Multi-line replies with a name, postal code, school name, gender = form data = NEW_PARENT
 
-NEW_PARENT – greetings, sharing child details, shorthand replies, expressing a need or intent ("I'm looking for...", "I want...", "need a tutor for...", "looking for piano/violin/math tutor"), ANY ambiguous message
-COMPLAINT_URGENT – ONLY if explicitly: cancel class, refund, complaint about tutor, technical issue
+NEW_PARENT – greetings, sharing child details, shorthand replies, expressing a need or intent ("I'm looking for...", "I want...", "need a tutor for...", "looking for piano/violin/math tutor"), ANY ambiguous message, form data replies (name/postal/school/gender)
+COMPLAINT_URGENT – ONLY if the parent is explicitly complaining about an EXISTING Nanyang Tuition service they are currently using: cancel a scheduled class, request a refund, complaint that their current Nanyang Tuition tutor is not performing, technical or payment issue with Nanyang Tuition.
+CRITICAL — these are NOT complaints, they are NEW_PARENT context:
+- "my child's school teacher is weak" = reason for seeking tutor → NEW_PARENT
+- "my tutor is weak in studies" = background context → NEW_PARENT
+- "my child is struggling" = academic situation → NEW_PARENT
+- "previous tutor didn't work out" = past experience → NEW_PARENT
+- "weak in math/english/science" = subject difficulty → NEW_PARENT
 FAQ – ONLY pure information questions with no expressed personal need. Examples: "Do you provide X?", "Do you have Y classes?", "How much does it cost?", "What are your rates?", "How long to find a tutor?"
 CRITICAL: "I'm looking for X tuition/tutor" = NEW_PARENT (intent), NOT FAQ. "Do you provide X?" = FAQ (question).
 OTHER – tutor asking about assignments, business partnership, nothing else fits
