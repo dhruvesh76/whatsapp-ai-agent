@@ -92,7 +92,7 @@ async def handle_webhook(request: Request):
             logger.info(f"Skipping message from own number: {wa_id}")
             return {"status": "ok"}
 
-        # Owner commands
+        # Owner commands — intercept only known commands, pass everything else to pipeline
         if wa_id == OWNER_NUMBER:
             stripped = text.strip()
             cmd = stripped.upper()
@@ -101,16 +101,19 @@ async def handle_webhook(request: Request):
                 st.mark_owner_takeover(target)
                 await send_message(OWNER_NUMBER, f"✅ Bot stopped for +{target}. You have full control.")
                 logger.info(f"Owner takeover for {target}")
+                return {"status": "ok"}
             elif cmd == "RESET ALL":
                 st.reset_all()
                 await send_message(OWNER_NUMBER, "✅ All conversations reset.")
                 logger.info("All conversations reset by owner")
+                return {"status": "ok"}
             elif cmd.startswith("RESET "):
                 target = stripped[6:].strip().replace("+", "").replace(" ", "")
                 st.reset_conversation(target)
                 await send_message(OWNER_NUMBER, f"✅ Conversation reset for +{target}. Bot will treat them as new.")
                 logger.info(f"Conversation reset for {target}")
-            return {"status": "ok"}
+                return {"status": "ok"}
+            # Not a command — fall through to normal pipeline
 
         # Buffer message — fires callback after 10s of silence
         await debounce.add_message(wa_id, text, process_and_send)
