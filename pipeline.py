@@ -417,12 +417,38 @@ async def _send_completion_summary(wa_id: str, history: list[dict]):
         logger.error(f"Failed to send completion summary: {e}")
 
 
+_FAREWELL_WORDS = {
+    "bye", "goodbye", "good bye", "byebye", "bye bye", "cya", "see you",
+    "see ya", "take care", "later", "ttyl", "good night", "goodnight",
+    "gnight", "tata", "talk later", "talk to you later",
+}
+
+_STANDALONE_ACKS = {
+    "ok", "okay", "k", "sure", "noted", "alright", "got it",
+    "thanks", "thank you", "thx", "ty", "great", "cool", "no worries",
+}
+
+
+def _is_silent(text: str, has_history: bool) -> bool:
+    low = text.strip().lower()
+    if low in _FAREWELL_WORDS:
+        return True
+    if low in _STANDALONE_ACKS and not has_history:
+        return True
+    return False
+
+
 async def process_message(wa_id: str, text: str) -> str | list[str] | None:
     user_state = st.get_state(wa_id)
 
     # ── Owner taken over — stay silent forever ────────────────────────────────
     if user_state.status == st.Status.OWNER_TAKEN_OVER:
         logger.info(f"Owner has taken over {wa_id} — bot silent")
+        return None
+
+    # ── Farewells and standalone acks with no conversation → silent ───────────
+    if _is_silent(text, bool(user_state.history)):
+        logger.info(f"Silent (farewell/standalone-ack) [{wa_id}]: {text!r}")
         return None
 
     # ── Post-completion routing ───────────────────────────────────────────────
@@ -450,7 +476,6 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
     elif category == "FAQ":
         return await _faq_with_followup(wa_id, text)
     elif category == "OTHER":
-        # Other (business partner, tutor inquiry) → fallback (matches n8n)
         return random.choice(FALLBACK_MESSAGES)
     else:
         # NEW_PARENT (or ambiguous default)
