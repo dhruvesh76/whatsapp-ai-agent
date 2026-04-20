@@ -215,7 +215,7 @@ May i have;
 ✔️ Student's Gender ( Female/ Male):
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
-🙋 May i check which stream is your child in ( IP/ G1, G2 or G3 ):
+🙋 May i check which stream is your child in ( IP/ G1, G2 or G3 )
 
 *Nanyang Tuition*
 www.nanyangtuition.com
