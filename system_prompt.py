@@ -200,11 +200,9 @@ HARD RULE: NEVER add a category title or header before the form. Do NOT write "O
 May i have;
 
 ✔️ Your Name:
-
 ✔️ Home postal code:
 
 ✔️ Student's Gender ( Female/ Male):
-
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
 
 --- PRIMARY (P1–P6 / PSLE) ---
@@ -212,15 +210,12 @@ May i have;
 May i have;
 
 ✔️ Your Name:
-
 ✔️ Home postal code:
 
 ✔️ Student's Gender ( Female/ Male):
-
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
 
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
-
 ✔️ Which school is the student attending?:
 
 --- SECONDARY (Sec 1–5 / O-Level / N-Level / IP / IGCSE) ---
@@ -228,11 +223,9 @@ May i have;
 May i have;
 
 ✔️ Your Name:
-
 ✔️ Home postal code:
 
 ✔️ Student's Gender ( Female/ Male):
-
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
 
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
@@ -250,15 +243,12 @@ If parent did NOT state subject → KEEP subject line.
 May i have;
 
 ✔️ Your Name:
-
 ✔️ Home postal code:
 
 ✔️ Student's Gender ( Female/ Male):
-
 ✔️ Which subject(s) are you looking for?: [INCLUDE ONLY IF SUBJECT NOT ALREADY GIVEN]
 
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
-
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
 
 ✔️ Which school is the student attending?:
@@ -268,15 +258,12 @@ May i have;
 May i have;
 
 ✔️ Your Name:
-
 ✔️ Home postal code ( for us to save your name and contact under):
 
 ✔️ Student's Gender ( Female/ Male):
-
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
 
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
-
 ✔️ Which school is the student attending?:
 
 *Nanyang Tuition*
@@ -291,15 +278,12 @@ MESSAGE 1:
 May i have;
 
 ✔️ Your Name:
-
 ✔️ Home postal code:
 
 ✔️ Student's Gender ( Female/ Male):
-
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
 
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
-
 ✔️ Would you prefer the lesson to be at your school or at home address?
 
 ✔️ May i check if you are open to online tuition as well, or is your preference mainly face to face home lesson?
@@ -329,15 +313,12 @@ Looking forward to hear from you. 🙂
 May i have your:
 
 ✔️ *Name* :
-
 ✔️ *Age* :
 
 ✔️ *Location/ Postal Code ( ActiveSG/ Condo Gym)* :
-
 ✔️ *Fitness Objective: (e.g. weight loss, toning, strength, endurance, etc.)* :
 
 ✔️ *Current Situation: (what challenges are you facing currently)* :
-
 ✔️ *Preferred Day and Time ( You may list a few schedules)* :
 
 ✔️ *Times per week? ( ie Once/ Twice a week to best to reach your aim )* :
@@ -351,11 +332,9 @@ Start with confidence and peace of mind, we will work together to achieve your f
 May i have;
 
 ✔️ Your Name:
-
 ✔️ Home postal code:
 
 ✔️ Student's Gender ( Female/ Male):
-
 ✔️ Student's Age
 
 *Nanyang Tuition*
@@ -367,19 +346,15 @@ _A Subsidiary of Nanyang Learning Pte Ltd_
 May i have;
 
 ✔️ Your Name:
-
 ✔️ Home postal code:
 
 ✔️ Do you have a Upright Piano/ Digital Piano Keyboard at home ( Yes/ No):
-
 ✔️ Student's Gender:
 
 ✔️ Student's Age:
-
 ✔️ Has the student recently taken any ABRSM exam? If yes, what is the grade level:
 
 ✔️ For exam or leisure:
-
 ✔️ Complete beginner or has prior experience with this instrument? If they have learned before, how many years have he/she been practicing?:
 
 --- VIOLIN ---
@@ -387,15 +362,12 @@ May i have;
 May i have;
 
 ✔️ Your Name:
-
 ✔️ Home postal code:
 
 ✔️ Do you have a Violin at home ( Yes/ No):
-
 ✔️ Student's Gender ( Female/ Male):
 
 ✔️ Student's Age:
-
 ✔️ May i check if your child has recently taken any ABRSM exam? If yes, what is the grade level?
 
 ====================================================================
