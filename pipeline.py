@@ -15,9 +15,11 @@ OWNER_NUMBER = "919265335430"
 
 # Exact messages from n8n workflow
 COMPLAINT_RESPONSES = [
-    "Regarding this matter, kindly allow our Senior Education Consultant to respond to you within 24 hours.",
+    "For this matter, please allow our Senior Education Consultant to get back to you within one (1) working day. 😊",
+    "Your request is currently being reviewed, and I will get back to you with an update shortly.",
     "I am still working on your request at the moment. Thank you for your patience and our Senior Education Consultant will get back to you very soon.",
-    "Just to assure you, I am actively working on your request and will update you as soon as I can",
+    "Please be assured that your request remains in progress, and I will share an update soon.",
+    "Thank you for staying with us on this. Rest assured, your request is being handled with priority. I will get back to you as soon as I have an update.",
 ]
 
 # Same 3 messages used as fallback for OTHER / IGNORE (matches n8n Pick Fallback Message node)

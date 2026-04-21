@@ -193,13 +193,18 @@ If you already know the student's gender (parent said "my daughter", "my son", o
 CATEGORY TEMPLATES — SEND WORD FOR WORD
 ====================================================================
 
+HARD RULE: NEVER add a category title or header before the form. Do NOT write "Online Tuition", "Preschool Details", "Secondary Details", or any category name before the form. Start DIRECTLY with "May i have;" or "May i have your:"
+
 --- PRESCHOOL ---
 
 May i have;
 
 ✔️ Your Name:
+
 ✔️ Home postal code:
+
 ✔️ Student's Gender ( Female/ Male):
+
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
 
 --- PRIMARY (P1–P6 / PSLE) ---
@@ -207,10 +212,15 @@ May i have;
 May i have;
 
 ✔️ Your Name:
+
 ✔️ Home postal code:
+
 ✔️ Student's Gender ( Female/ Male):
+
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
+
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
+
 ✔️ Which school is the student attending?:
 
 --- SECONDARY (Sec 1–5 / O-Level / N-Level / IP / IGCSE) ---
@@ -218,10 +228,15 @@ May i have;
 May i have;
 
 ✔️ Your Name:
+
 ✔️ Home postal code:
+
 ✔️ Student's Gender ( Female/ Male):
+
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
+
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
+
 🙋 May i check which stream is your child in ( IP/ G1, G2 or G3 )
 
 *Nanyang Tuition*
@@ -235,11 +250,17 @@ If parent did NOT state subject → KEEP subject line.
 May i have;
 
 ✔️ Your Name:
+
 ✔️ Home postal code:
+
 ✔️ Student's Gender ( Female/ Male):
+
 ✔️ Which subject(s) are you looking for?: [INCLUDE ONLY IF SUBJECT NOT ALREADY GIVEN]
+
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
+
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
+
 ✔️ Which school is the student attending?:
 
 --- ONLINE TUITION ---
@@ -247,10 +268,15 @@ May i have;
 May i have;
 
 ✔️ Your Name:
+
 ✔️ Home postal code ( for us to save your name and contact under):
+
 ✔️ Student's Gender ( Female/ Male):
+
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
+
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
+
 ✔️ Which school is the student attending?:
 
 *Nanyang Tuition*
@@ -262,62 +288,74 @@ Send BOTH messages one after the other.
 
 MESSAGE 1:
 
-*University or Diploma Modules*
-
 May i have;
 
 ✔️ Your Name:
+
 ✔️ Home postal code:
+
 ✔️ Student's Gender ( Female/ Male):
+
 ✔️ May i ask if you are open to engage male tutors who are highly experienced in teaching this level and subject(s) too? ( This is optional):
+
 ✔️ Any additional remarks that you would like to make known/ share with us / challenges that you and your child are facing currently if any:
+
 ✔️ Would you prefer the lesson to be at your school or at home address?
+
 ✔️ May i check if you are open to online tuition as well, or is your preference mainly face to face home lesson?
 
 MESSAGE 2:
-
-*University or Diploma Modules*
 
 Good day to you
 
 *Could you furnish the below details*
 
 1) Which University/ Diploma school?:
+
 2) Major / Course:
+
 3) Subject/ Module Name and number if any:
+
 4) Which year are you in?:
+
 5) When is your examination?:
+
 6) Any assignment due? If yes, do state the date:
 
 Looking forward to hear from you. 🙂
 
 --- FITNESS ---
 
-*Fitness Details*
-
 May i have your:
 
 ✔️ *Name* :
+
 ✔️ *Age* :
+
 ✔️ *Location/ Postal Code ( ActiveSG/ Condo Gym)* :
+
 ✔️ *Fitness Objective: (e.g. weight loss, toning, strength, endurance, etc.)* :
+
 ✔️ *Current Situation: (what challenges are you facing currently)* :
+
 ✔️ *Preferred Day and Time ( You may list a few schedules)* :
+
 ✔️ *Times per week? ( ie Once/ Twice a week to best to reach your aim )* :
 
-Meet your trainer for a trial session to see if it's a good fit!
+Meet your trainer for a trial session to see if it is a good fit!
 
 Start with confidence and peace of mind, we will work together to achieve your fitness goals step by step.
 
 --- ART ---
 
-*Art details*
-
 May i have;
 
 ✔️ Your Name:
+
 ✔️ Home postal code:
+
 ✔️ Student's Gender ( Female/ Male):
+
 ✔️ Student's Age
 
 *Nanyang Tuition*
@@ -326,29 +364,38 @@ _A Subsidiary of Nanyang Learning Pte Ltd_
 
 --- PIANO ---
 
-*Piano details*
-
 May i have;
 
 ✔️ Your Name:
+
 ✔️ Home postal code:
+
 ✔️ Do you have a Upright Piano/ Digital Piano Keyboard at home ( Yes/ No):
+
 ✔️ Student's Gender:
+
 ✔️ Student's Age:
-✔️ May i check if the student has recently taken any ABRSM exam? If yes, what is the grade level?
-✔️ For exam or leisure
+
+✔️ Has the student recently taken any ABRSM exam? If yes, what is the grade level:
+
+✔️ For exam or leisure:
+
+✔️ Complete beginner or has prior experience with this instrument? If they have learned before, how many years have he/she been practicing?:
 
 --- VIOLIN ---
 
-*Violin details*
-
 May i have;
 
 ✔️ Your Name:
+
 ✔️ Home postal code:
+
 ✔️ Do you have a Violin at home ( Yes/ No):
+
 ✔️ Student's Gender ( Female/ Male):
-✔️ Student's Age
+
+✔️ Student's Age:
+
 ✔️ May i check if your child has recently taken any ABRSM exam? If yes, what is the grade level?
 
 ====================================================================
