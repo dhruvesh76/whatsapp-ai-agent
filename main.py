@@ -70,6 +70,12 @@ async def handle_webhook(request: Request):
 
         message = value["messages"][0]
 
+        if message.get("type") == "image":
+            wa_id = message["from"]
+            logger.info(f"Image message from {wa_id} — sending consultant reply")
+            await send_message(wa_id, "For this matter, please allow our Senior Education Consultant to get back to you within one (1) working day. 😊")
+            return {"status": "ok"}
+
         if message.get("type") != "text":
             logger.info(f"Skipping non-text message type: {message.get('type')}")
             return {"status": "ok"}
