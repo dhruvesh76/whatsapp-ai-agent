@@ -2,6 +2,7 @@ import asyncio
 import os
 import logging
 import random
+import re
 
 from openai import AsyncOpenAI
 
@@ -12,6 +13,36 @@ logger = logging.getLogger(__name__)
 
 client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY", "").strip())
 OWNER_NUMBER = "919265335430"
+
+# ── Hard-coded rule: NT tutor number ─────────────────────────────────────────
+_NT_PATTERN = re.compile(r'\bNT\s*\d+', re.IGNORECASE)
+_NT_RESPONSE = (
+    "To enquire about this, please visit our website at www.nanyangtuition.com "
+    "and click on the *Enquire Now* button. Our team will get back to you within 3 working days. 😊\n\n"
+    "May I check if you have already submitted the form on our website?"
+)
+
+# ── Hard-coded rule: Job / assignment seekers ─────────────────────────────────
+_JOB_SEEKER_KEYWORDS = [
+    "any job", "got job", "have job", "any assignment", "got assignment",
+    "available assignment", "tutor job", "teaching job", "apply as tutor",
+    "register as tutor", "join as tutor", "i am a tutor", "im a tutor",
+    "i'm a tutor", "want to be a tutor", "want to become a tutor",
+    "looking for tutor job", "looking for assignment", "find assignment",
+    "tutor registration", "register tutor",
+]
+_JOB_SEEKER_RESPONSE = (
+    "For tutor registration, please visit our website at www.nanyangtuition.com "
+    "and click on *Tutor Registration*. 😊\n\n"
+    "Our coordinator will be in touch with you once a suitable assignment is available."
+)
+
+# ── Hard-coded rule: Fitness is a service we offer — never off-topic ──────────
+_FITNESS_KEYWORDS = [
+    "fitness", "personal train", "personal trainer", "workout", "work out",
+    "weight loss", "toning", "gym", "exercise", "slim", "slimming",
+    "fitness class", "fitness session", "fitness rate", "fitness price",
+]
 
 # Exact messages from n8n workflow
 COMPLAINT_RESPONSES = [
@@ -632,6 +663,16 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
     if any(phrase in low_text for phrase in _GRATITUDE_WITH_CONTEXT):
         return "You are welcome, feel free to reach out anytime."
 
+    # ── NT tutor number → fixed redirect (no GPT) ─────────────────────────────
+    if _NT_PATTERN.search(text):
+        logger.info(f"NT number detected [{wa_id}]: {text!r}")
+        return _NT_RESPONSE
+
+    # ── Job / assignment seeker → fixed redirect (no GPT) ────────────────────
+    if any(kw in low_text for kw in _JOB_SEEKER_KEYWORDS):
+        logger.info(f"Job seeker detected [{wa_id}]: {text!r}")
+        return _JOB_SEEKER_RESPONSE
+
     # ── Post-completion routing ───────────────────────────────────────────────
     if user_state.status == st.Status.COMPLETED:
         category = await classify_post_completion(text)
@@ -647,6 +688,12 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
         else:
             # IGNORE (ok/thanks/noted) → stay silent
             return None
+
+    # ── Fitness keyword → always route to Geraldine (not FAQ) ────────────────
+    # Prevents FAQ agent from treating fitness as off-topic
+    if any(kw in low_text for kw in _FITNESS_KEYWORDS):
+        logger.info(f"Fitness keyword detected [{wa_id}] — routing to Geraldine")
+        return await run_geraldine(wa_id, text)
 
     # ── Active conversation — classify EVERY message ──────────────────────────
     category = await classify_new_message(text)
