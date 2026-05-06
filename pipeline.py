@@ -15,11 +15,11 @@ OWNER_NUMBER = "919265335430"
 
 # Exact messages from n8n workflow
 COMPLAINT_RESPONSES = [
-    "For this matter, please allow our Senior Education Consultant to get back to you within one (1) working day. 😊",
-    "Your request is currently being reviewed, and I will get back to you with an update shortly.",
-    "I am still working on your request at the moment. Thank you for your patience and our Senior Education Consultant will get back to you very soon.",
-    "Please be assured that your request remains in progress, and I will share an update soon.",
-    "Thank you for staying with us on this. Rest assured, your request is being handled with priority. I will get back to you as soon as I have an update.",
+    "Your request is currently under review, and I will provide you with an update shortly.\n\nGeraldine Goh\n*Nanyang Tuition*\nwww.nanyangtuition.com\n_A Subsidiary of Nanyang Learning Pte Ltd_",
+    "Please be assured that your request is still in progress, and I will share an update with you soon.",
+    "I am still working on your request. Thank you for your patience, and our Senior Education Consultant will get back to you shortly.",
+    "Our Senior Education Consultant will be in touch with you shortly regarding this matter. 😊",
+    "Thank you for your patience. Rest assured, your request is being handled as a priority. I will get back to you as soon as I have an update.",
 ]
 
 # Same 3 messages used as fallback for OTHER / IGNORE (matches n8n Pick Fallback Message node)
@@ -28,6 +28,8 @@ FALLBACK_MESSAGES = COMPLAINT_RESPONSES
 CLOSING_PHRASES = [
     "noted down your requirements",
     "sending a list of the most suitable tutor profiles",
+    "sending a list of the most suitable instructor profiles",
+    "matching you with a fitness trainer profile",
     "keep an eye out for my messages",
 ]
 
@@ -164,6 +166,106 @@ Rates depend on the level, subject, and tutor category. As a general guide:
 *Junior College:* $45 to $150/hr
 
 
+What are the piano lesson rates?
+
+Piano lessons are charged per session, usually 45 minutes or 1 hour, depending on the grade level and instructor category. 😊
+
+*Experienced Full Time Piano Instructor:* $50 to $90 per 45 minutes
+*University Student Piano Instructor:* $40 to $70 per 45 minutes
+
+The exact rate depends on the ABRSM grade the student is working on.
+
+
+What are the violin lesson rates?
+
+Violin lessons are charged per session, usually 45 minutes or 1 hour, depending on the grade level and instructor category. 😊
+
+*Experienced Violin Instructor:* $55 to $100 per session
+*University Student Violin Instructor:* $45 to $85 per session
+
+The exact rate depends on the ABRSM grade the student is working on.
+
+
+What are the fitness or personal training rates?
+
+Fitness rates depend on the trainer profile, your location, and the number of sessions per week.
+
+We will share the trainer's profile along with her schedule and rates once we find the most suitable match for you. 😊
+
+
+How long to find a piano or violin instructor?
+
+Usually within 1 to 3 working days, depending on the grade level and your location. 😊
+
+We will reach out as soon as we have shortlisted the most suitable instructor profiles for your consideration.
+
+
+How long to find a fitness trainer?
+
+Usually within 1 to 3 working days, depending on your location and preferred schedule. 😊
+
+We will reach out as soon as we have a suitable trainer profile ready for you.
+
+
+Can I change music instructors?
+
+Yes, absolutely. No contract binding at all. 😊
+
+If at any point you feel the instructor is not the right fit, just let us know and we will arrange a replacement.
+
+What matters most is that your child enjoys the lessons and makes progress.
+
+
+Can I change fitness trainers?
+
+Yes, absolutely. No contract at all. 😊
+
+If at any point you feel the trainer is not the right match, just let us know and we will arrange a replacement.
+
+What matters most is that you feel comfortable and are progressing toward your goals.
+
+
+What qualifications do your music instructors have?
+
+Our piano and violin instructors are ABRSM certified, typically at Grade 8 or above. 😊
+
+They range from experienced full-time instructors with performance and competition backgrounds to university student instructors with solid teaching experience.
+
+Each instructor is carefully screened before we recommend them.
+
+
+What qualifications do your fitness trainers have?
+
+Our fitness trainers are certified personal trainers with relevant coaching experience. 😊
+
+They are screened based on their certifications, coaching background, and ability to tailor programmes to individual fitness goals.
+
+
+Where do fitness sessions take place?
+
+Sessions can be conducted at your condo gym, an ActiveSG gym, or any gym near your area. 😊
+
+The trainer will advise on the most suitable venue based on your location.
+
+
+Do you offer trial music lessons?
+
+We do not practise formal trial lessons.
+
+However, should you find the instructor's teaching style is not suitable after the first lesson, you may terminate immediately through the agency. A one-lesson fee to the agency applies for termination.
+
+Otherwise, lessons continue as arranged. 😊
+
+You may wish to see the first lesson as a trial.
+
+
+Do you offer trial fitness sessions?
+
+We encourage you to meet the trainer for a first session to see if it is a good fit. 😊
+
+If you feel it is not the right match, just let us know and we will look into arranging a replacement.
+
+
 How does payment work?
 
 After the 2nd lesson, the agency fee (50% of the agreed monthly fee) is paid to Nanyang Learning.
@@ -188,10 +290,25 @@ Yes, all lessons are conducted at your home unless you prefer online. 😊
 
 The tutor travels to you at the scheduled time. There are no extra travel charges.
 
+
+Looking for a tutoring job or teaching assignment?
+
+For tutor registration, please visit our website at www.nanyangtuition.com and click on *Tutor Registration*. 😊
+
+Our coordinator will be in touch with you once a suitable assignment is available.
+
+
+Are you a tuition centre?
+
+We are not a tuition centre. 😊
+
+We are a home tuition agency. All lessons are one-to-one and conducted at the student's home, so the tutor gives your child full personalised attention throughout every session.
+
 </FAQ_RESPONSES>
 
 <OFF_TOPIC>
-If asked about anything unrelated to tuition:
+IMPORTANT: Fitness, piano, violin, art, personal training, and job registration questions are NOT off-topic — answer them using the FAQ responses above.
+Only use this response for genuinely unrelated topics (e.g. cooking, travel, news):
 "I am here to help with your tuition needs. For other matters, please allow our Senior Education Consultant to get back to you within one (1) working day. 😊"
 </OFF_TOPIC>
 
@@ -231,9 +348,10 @@ CRITICAL — these are NOT complaints, they are NEW_PARENT context:
 - "my child is struggling" = academic situation → NEW_PARENT
 - "previous tutor didn't work out" = past experience → NEW_PARENT
 - "weak in math/english/science" = subject difficulty → NEW_PARENT
-FAQ – ONLY pure information questions with no expressed personal need. Examples: "Do you provide X?", "Do you have Y classes?", "How much does it cost?", "What are your rates?", "How long to find a tutor?"
-CRITICAL: "I'm looking for X tuition/tutor" = NEW_PARENT (intent), NOT FAQ. "Do you provide X?" = FAQ (question).
-OTHER – tutor asking about assignments, business partnership, nothing else fits
+FAQ – Pure information questions with no expressed personal need. Examples: "Do you provide X?", "Do you have Y classes?", "How much does it cost?", "What are your rates?", "How long to find a tutor?", "How much for fitness?", "How much for piano?", "Do you have violin lessons?", "Are you a tuition centre?"
+ALSO FAQ: Anyone looking for a tutoring job, teaching assignment, or asking how to register as a tutor. Examples: "Any job for primary?", "I want to be a tutor", "How do I apply as a tutor?", "Any assignment available?"
+CRITICAL: "I'm looking for X tuition/tutor" = NEW_PARENT (intent to hire), NOT FAQ. "Do you provide X?" = FAQ (question).
+OTHER – business partnership proposals, spam, nothing else fits
 
 WHEN IN DOUBT: NEW_PARENT.
 
@@ -471,6 +589,21 @@ _STANDALONE_ACKS = {
     "thanks", "thank you", "thx", "ty", "great", "cool", "no worries",
 }
 
+_GRATITUDE_WITH_CONTEXT = {
+    "thank you for your help",
+    "thanks for your help",
+    "thank you so much for your help",
+    "thanks so much for your help",
+    "thank u for your help",
+    "thx for your help",
+    "appreciate your help",
+    "thank you for the help",
+    "thanks for the help",
+    "thank you for helping",
+    "thanks for helping",
+    "appreciate the help",
+}
+
 
 def _is_silent(text: str, has_history: bool) -> bool:
     low = text.strip().lower()
@@ -493,6 +626,11 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
     if _is_silent(text, bool(user_state.history)):
         logger.info(f"Silent (farewell/standalone-ack) [{wa_id}]: {text!r}")
         return None
+
+    # ── Gratitude with context → warm acknowledgement ─────────────────────────
+    low_text = text.strip().lower()
+    if any(phrase in low_text for phrase in _GRATITUDE_WITH_CONTEXT):
+        return "You are welcome, feel free to reach out anytime."
 
     # ── Post-completion routing ───────────────────────────────────────────────
     if user_state.status == st.Status.COMPLETED:
