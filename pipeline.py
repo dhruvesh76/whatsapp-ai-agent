@@ -17,9 +17,12 @@ OWNER_NUMBER = "919265335430"
 # ── Hard-coded rule: NT tutor number ─────────────────────────────────────────
 _NT_PATTERN = re.compile(r'\bNT\s*\d+', re.IGNORECASE)
 _NT_RESPONSE = (
-    "To enquire about this, please visit our website at www.nanyangtuition.com "
-    "and click on the *Enquire Now* button. Our team will get back to you within 3 working days. 😊\n\n"
-    "May I check if you have already submitted the form on our website?"
+    "Good day to you.\n\n"
+    "We are only able to process your request, for the above tutor(s) via our website. "
+    "You may click on the green button \"Enquire Now\" to submit your request. "
+    "At the same time, you may also shortlist a few tutors and submit together, all at once.\n\n"
+    "We will get back to you once we have received your request within one ( 3) working days. 🙂\n\n"
+    "May i check if you have submitted your request?"
 )
 
 # ── Hard-coded rule: Job / assignment seekers ─────────────────────────────────
@@ -617,7 +620,7 @@ _FAREWELL_WORDS = {
 
 _STANDALONE_ACKS = {
     "ok", "okay", "k", "sure", "noted", "alright", "got it",
-    "thanks", "thank you", "thx", "ty", "great", "cool", "no worries",
+    "thanks", "thx", "ty", "great", "cool", "no worries",
 }
 
 _GRATITUDE_WITH_CONTEXT = {
@@ -658,8 +661,10 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
         logger.info(f"Silent (farewell/standalone-ack) [{wa_id}]: {text!r}")
         return None
 
-    # ── Gratitude with context → warm acknowledgement ─────────────────────────
+    # ── Plain "thank you" or gratitude with context → warm acknowledgement ──────
     low_text = text.strip().lower()
+    if low_text == "thank you":
+        return "You are welcome, feel free to reach out anytime."
     if any(phrase in low_text for phrase in _GRATITUDE_WITH_CONTEXT):
         return "You are welcome, feel free to reach out anytime."
 
@@ -675,6 +680,12 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
 
     # ── Post-completion routing ───────────────────────────────────────────────
     if user_state.status == st.Status.COMPLETED:
+        # Rate/pricing questions → Geraldine with full history context (not generic FAQ)
+        _rate_keywords = {"rate", "rates", "how much", "pricing", "price", "fees", "fee", "cost"}
+        if any(kw in low_text for kw in _rate_keywords):
+            logger.info(f"Post-completion rate question [{wa_id}] — routing to Geraldine with history")
+            return await run_geraldine(wa_id, text)
+
         category = await classify_post_completion(text)
         logger.info(f"Post-completion [{wa_id}]: {category}")
 
