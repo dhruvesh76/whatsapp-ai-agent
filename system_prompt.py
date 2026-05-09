@@ -258,10 +258,7 @@ May i have;
 www.nanyangtuition.com
 _A Subsidiary of Nanyang Learning Pte Ltd_
 
-IP STREAM CONFIRMED RULE: Once the parent answers "IP" for the stream → before showing IP pricing, collect these two additional fields:
-✔️ Which school is the student currently attending?
-✔️ Would you prefer face-to-face home lessons or are you open to online tuition as well?
-After both are answered → proceed to the matching IP pricing template.
+IP STREAM CONFIRMED RULE: Once the parent answers "IP" for the stream → go DIRECTLY to the matching IP pricing template. Do NOT ask for school or face-to-face preference before pricing. Do NOT add any extra steps.
 
 --- JC (JC1 / JC2 / A-Level / IB at JC year) ---
 If parent already stated subject → REMOVE subject line.
