@@ -749,6 +749,19 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
         idx = min(user_state.job_seeker_count - 1, len(_JOB_SEEKER_RESPONSES) - 1)
         return _JOB_SEEKER_RESPONSES[idx]
 
+    # ── Fitness / Music → always route to Geraldine regardless of state ──────
+    if any(kw in low_text for kw in _FITNESS_KEYWORDS):
+        logger.info(f"Fitness keyword detected [{wa_id}] — routing to Geraldine")
+        if user_state.status == st.Status.COMPLETED:
+            st.reset_conversation(wa_id)
+        return await run_geraldine(wa_id, text)
+
+    if any(kw in low_text for kw in _MUSIC_KEYWORDS):
+        logger.info(f"Music keyword detected [{wa_id}] — routing to Geraldine")
+        if user_state.status == st.Status.COMPLETED:
+            st.reset_conversation(wa_id)
+        return await run_geraldine(wa_id, text)
+
     # ── Post-completion routing ───────────────────────────────────────────────
     if user_state.status == st.Status.COMPLETED:
         # Rate/pricing questions → Geraldine with full history context (not generic FAQ)
@@ -770,16 +783,6 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
         else:
             # IGNORE (ok/thanks/noted) → stay silent
             return None
-
-    # ── Fitness keyword → always route to Geraldine (not FAQ) ────────────────
-    if any(kw in low_text for kw in _FITNESS_KEYWORDS):
-        logger.info(f"Fitness keyword detected [{wa_id}] — routing to Geraldine")
-        return await run_geraldine(wa_id, text)
-
-    # ── Piano / Violin keyword → always route to Geraldine for form + pricing ──
-    if any(kw in low_text for kw in _MUSIC_KEYWORDS):
-        logger.info(f"Music keyword detected [{wa_id}] — routing to Geraldine")
-        return await run_geraldine(wa_id, text)
 
     # ── Active conversation — classify EVERY message ──────────────────────────
     category = await classify_new_message(text)
