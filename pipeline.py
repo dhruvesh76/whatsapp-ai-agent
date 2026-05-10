@@ -534,11 +534,13 @@ async def run_geraldine(wa_id: str, text: str) -> str:
     return reply
 
 
+_OFF_TOPIC_MARKER = "I am here to help with your tuition needs"
+
 async def _faq_with_followup(wa_id: str, text: str) -> list[str] | str:
     faq_answer = await run_faq(wa_id, text)
     user_state = st.get_state(wa_id)
-    # Only transition into Geraldine's sales flow if parent hasn't already started it
-    if len(user_state.history) == 0:
+    # Only add Geraldine followup for new users AND only when FAQ gave a real answer (not off-topic)
+    if len(user_state.history) == 0 and _OFF_TOPIC_MARKER not in faq_answer:
         geraldine_reply = await run_geraldine(wa_id, text)
         return [faq_answer, geraldine_reply]
     return faq_answer
