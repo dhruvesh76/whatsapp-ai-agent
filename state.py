@@ -13,6 +13,7 @@ class UserState:
     status: Status = Status.ACTIVE
     history: list[dict] = field(default_factory=list)
     complaint_count: int = 0
+    job_seeker_count: int = 0
 
 
 _states: dict[str, UserState] = {}

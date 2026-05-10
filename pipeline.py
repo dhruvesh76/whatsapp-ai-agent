@@ -30,21 +30,50 @@ _JOB_SEEKER_KEYWORDS = [
     "any job", "got job", "have job", "any assignment", "got assignment",
     "available assignment", "tutor job", "teaching job", "apply as tutor",
     "register as tutor", "join as tutor", "i am a tutor", "im a tutor",
-    "i'm a tutor", "want to be a tutor", "want to become a tutor",
+    "want to be a tutor", "want to become a tutor",
     "looking for tutor job", "looking for assignment", "find assignment",
     "tutor registration", "register tutor",
+    "looking for a job", "looking for job", "i am looking for a job",
+    "im looking for a job", "find a job", "find job", "any jobs",
+    "math/chinese jobs", "english jobs", "science jobs", "chinese jobs",
+    "maths jobs", "tuition jobs", "home tuition job", "teaching jobs",
+    "tutor available", "i want to tutor", "i want to be tutor",
+    "looking for work", "seeking job", "seeking assignment", "seeking tutor job",
+    "need a job", "need job", "jobs available", "assignment available",
+    "k1 to p3", "p1 to p6", "pri 1 to", "sec 1 to",
 ]
-_JOB_SEEKER_RESPONSE = (
-    "For tutor registration, please visit our website at www.nanyangtuition.com "
-    "and click on *Tutor Registration*. 😊\n\n"
-    "Our coordinator will be in touch with you once a suitable assignment is available."
+_JOB_SEEKER_PATTERN = re.compile(
+    r'\b(jobs?|assignment)\b.*\b(available|looking|seeking|wanted|needed)\b'
+    r'|\b(looking|seeking|searching)\b.*\b(jobs?|assignment|work)\b'
+    r'|\bi\s+(am|want\s+to\s+be|want\s+to\s+become)\s+(a\s+)?tutor\b',
+    re.IGNORECASE,
 )
+
+_SIGNATURE = "\n\nGeraldine Goh\n*Nanyang Tuition*\nwww.nanyangtuition.com\n_A Subsidiary of Nanyang Learning Pte Ltd_"
+
+_JOB_SEEKER_RESPONSES = [
+    "Your request is currently under review, and I will provide you with an update shortly." + _SIGNATURE,
+    "Please be assured that your request is still in progress, and I will share an update with you soon." + _SIGNATURE,
+    "I am still working on your request. Thank you for your patience, and our Senior Education Consultant will get back to you shortly." + _SIGNATURE,
+    "Our Senior Education Consultant will be in touch with you shortly regarding this matter. 😊" + _SIGNATURE,
+    "Thank you for your patience. Rest assured, your request is being handled as a priority. I will get back to you as soon as I have an update." + _SIGNATURE,
+]
 
 # ── Hard-coded rule: Fitness is a service we offer — never off-topic ──────────
 _FITNESS_KEYWORDS = [
     "fitness", "personal train", "personal trainer", "workout", "work out",
     "weight loss", "toning", "gym", "exercise", "slim", "slimming",
     "fitness class", "fitness session", "fitness rate", "fitness price",
+    "custom workout", "custom work out", "weight lost",
+]
+
+# ── Hard-coded rule: Piano / Violin always go to Geraldine for form collection ─
+_MUSIC_KEYWORDS = [
+    "piano", "violin", "music lesson", "music teacher", "music instructor",
+    "abrsm", "piano lesson", "violin lesson", "piano class", "violin class",
+    "piano fee", "violin fee", "piano rate", "violin rate",
+    "piano price", "violin price", "teach piano", "teach violin",
+    "piano tuition", "violin tuition",
 ]
 
 # Exact messages from n8n workflow
@@ -65,6 +94,8 @@ CLOSING_PHRASES = [
     "sending a list of the most suitable instructor profiles",
     "matching you with a fitness trainer profile",
     "keep an eye out for my messages",
+    "music instructor's credentials",
+    "once we have a instructor available at your location",
 ]
 
 FAQ_SYSTEM_PROMPT = """You are Geraldine Goh, Senior Education Consultant at Nanyang Tuition (a subsidiary of Nanyang Learning Pte Ltd). You are NOT a bot. Parents must feel like they are speaking directly with Geraldine — warm, human, and genuinely helpful.
@@ -202,29 +233,67 @@ Rates depend on the level, subject, and tutor category. As a general guide:
 
 What are the piano lesson rates?
 
-Piano lessons are charged per session, usually 45 minutes or 1 hour, depending on the grade level and instructor category. 😊
+*Beginner Piano ( Practical and/ or Theory)*
+*Private Piano Lesson*
 
-*Experienced Full Time Piano Instructor:* $50 to $90 per 45 minutes
-*University Student Piano Instructor:* $40 to $70 per 45 minutes
+👉🏻For Experienced Full Time Piano Instructor ( Minimum 3 years of teaching experience and at least Grade 8 ABRSM Certified, may have possibly taken part in performance, competitions, school team, school coaching, music school teaching experiences, Piano awards etc )- $50 per 45mins
 
-The exact rate depends on the ABRSM grade the student is working on.
+👉🏻University Student, Piano Instructor ( Between 1 to 3 years of teaching experience with at least Grade 8 ABRSM Certified, may have possibly taken part in performance, competitions, school team, school coaching, music school teaching experiences, Piano awards etc )- $40 per 45 mins.
+
+⏰Minimum 45mins per lesson. You may request to have 1hr per lesson.
+Minimum one lesson per week.
+
+♦️May I ask what category of Instructor/ requirements are you looking to engage ? 🙂
 
 
 What are the violin lesson rates?
 
-Violin lessons are charged per session, usually 45 minutes or 1 hour, depending on the grade level and instructor category. 😊
+*Beginner Violin ( Practical and/ or Theory)*
+*Private Home Violin Lesson*
 
-*Experienced Violin Instructor:* $55 to $100 per session
-*University Student Violin Instructor:* $45 to $85 per session
+👉🏻For experienced Violin Instructor ( Minimum 3 years of teaching experience and at least Grade 8 ABRSM Certified, may have possibly taken part in performance, competitions, school team, school coaching, music school teaching experiences, Violin awards etc )- $55-60 per 45mins
 
-The exact rate depends on the ABRSM grade the student is working on.
+👉🏻University Student, Violin Instructor ( Between 1 to 3 years of teaching experience and at least Grade 8 ABRSM Certified, may have possibly taken part in performance, competitions, school team, school coaching, music school teaching experiences, Violin awards etc )- $45 per 45 mins.
+
+⏰Minimum 45mins per lesson. You may request to have 1hr per lesson.
+Minimum one lesson per week.
+
+♦️May I ask what category of Instructor/ requirements are you looking to engage ? 🙂
 
 
 What are the fitness or personal training rates?
 
-Fitness rates depend on the trainer profile, your location, and the number of sessions per week.
+I will get back to you with the trainer's profile, including her schedule and rates. 😊
 
-We will share the trainer's profile along with her schedule and rates once we find the most suitable match for you. 😊
+As for the fees, they typically range from:
+Primary: $70 to $80 per hour ( per lesson), depending on your provided schedule.
+
+Once I have more details, I will share the full information with you.
+
+
+Do you offer group fitness training?
+
+Yes, group training can be arranged. May I check both your schedules and goals? I will also be able to advise on the group training rates accordingly.
+
+
+What are the group fitness training rates?
+
+🔺 For group training (2 students), both of you will train together in a shared 1-hour session.
+Pros: It is more affordable per person and can be more motivating since you are training with a friend.
+Cons: In a shared setting, the trainer will need to divide focus between both participants, so individual corrections and detailed guidance may be slightly limited.
+
+🔺 For 1-to-1 training, each student gets a full 1-hour session with the trainer's complete attention.
+Pros: More personalised guidance, better focus on individual needs, and quicker correction of techniques.
+Cons: The cost per person is slightly higher, but it is generally more worthwhile as you receive more focused, personalised training.
+
+Private Fitness Fees
+$75/hour for a 1-to-1 trainer
+$105/hour for a 2-to-1 trainer
+
+
+Do you accept male students for fitness?
+
+We regret to inform you that we are currently only accepting female students.
 
 
 How long to find a piano or violin instructor?
@@ -673,10 +742,12 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
         logger.info(f"NT number detected [{wa_id}]: {text!r}")
         return _NT_RESPONSE
 
-    # ── Job / assignment seeker → fixed redirect (no GPT) ────────────────────
-    if any(kw in low_text for kw in _JOB_SEEKER_KEYWORDS):
+    # ── Job / assignment seeker → 5 cycling replies (no GPT) ────────────────────
+    if any(kw in low_text for kw in _JOB_SEEKER_KEYWORDS) or _JOB_SEEKER_PATTERN.search(text):
         logger.info(f"Job seeker detected [{wa_id}]: {text!r}")
-        return _JOB_SEEKER_RESPONSE
+        user_state.job_seeker_count += 1
+        idx = min(user_state.job_seeker_count - 1, len(_JOB_SEEKER_RESPONSES) - 1)
+        return _JOB_SEEKER_RESPONSES[idx]
 
     # ── Post-completion routing ───────────────────────────────────────────────
     if user_state.status == st.Status.COMPLETED:
@@ -701,9 +772,13 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
             return None
 
     # ── Fitness keyword → always route to Geraldine (not FAQ) ────────────────
-    # Prevents FAQ agent from treating fitness as off-topic
     if any(kw in low_text for kw in _FITNESS_KEYWORDS):
         logger.info(f"Fitness keyword detected [{wa_id}] — routing to Geraldine")
+        return await run_geraldine(wa_id, text)
+
+    # ── Piano / Violin keyword → always route to Geraldine for form + pricing ──
+    if any(kw in low_text for kw in _MUSIC_KEYWORDS):
+        logger.info(f"Music keyword detected [{wa_id}] — routing to Geraldine")
         return await run_geraldine(wa_id, text)
 
     # ── Active conversation — classify EVERY message ──────────────────────────
