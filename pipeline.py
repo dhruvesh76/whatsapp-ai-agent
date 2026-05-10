@@ -78,11 +78,11 @@ _MUSIC_KEYWORDS = [
 
 # Exact messages from n8n workflow
 COMPLAINT_RESPONSES = [
-    "Your request is currently under review, and I will provide you with an update shortly.\n\nGeraldine Goh\n*Nanyang Tuition*\nwww.nanyangtuition.com\n_A Subsidiary of Nanyang Learning Pte Ltd_",
-    "Please be assured that your request is still in progress, and I will share an update with you soon.",
-    "I am still working on your request. Thank you for your patience, and our Senior Education Consultant will get back to you shortly.",
-    "Our Senior Education Consultant will be in touch with you shortly regarding this matter. 😊",
-    "Thank you for your patience. Rest assured, your request is being handled as a priority. I will get back to you as soon as I have an update.",
+    "For this matter, please allow our Senior Education Consultant to get back to you within one (1) working day. 😊",
+    "Your request is currently being reviewed, and I will get back to you with an update shortly.",
+    "I am still working on your request at the moment. Thank you for your patience and our Senior Education Consultant will get back to you very soon.",
+    "Please be assured that your request remains in progress, and I will share an update soon.",
+    "Thank you for staying with us on this. Rest assured, your request is being handled with priority. I will get back to you as soon as I have an update.",
 ]
 
 # Same 3 messages used as fallback for OTHER / IGNORE (matches n8n Pick Fallback Message node)
