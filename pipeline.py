@@ -64,8 +64,16 @@ _FITNESS_KEYWORDS = [
     "fitness", "personal train", "personal trainer", "workout", "work out",
     "weight loss", "toning", "gym", "exercise", "slim", "slimming",
     "fitness class", "fitness session", "fitness rate", "fitness price",
-    "custom workout", "custom work out", "weight lost",
+    "custom workout", "custom work out", "weight lost", "body fat",
+    "calorie", "cardio", "strength training", "lose weight", "get fit",
 ]
+
+_FITNESS_PATTERN = re.compile(
+    r'\b(fitness|workout|work\s*out|weight\s*loss|personal\s*train(er|ing)?|'
+    r'gym|exercise|slim(ming)?|toning|cardio|calorie|body\s*fat|'
+    r'get\s*fit|lose\s*weight|strength\s*train)\b',
+    re.IGNORECASE,
+)
 
 # ── Hard-coded rule: Piano / Violin always go to Geraldine for form collection ─
 _MUSIC_KEYWORDS = [
@@ -752,7 +760,7 @@ async def process_message(wa_id: str, text: str) -> str | list[str] | None:
         return _JOB_SEEKER_RESPONSES[idx]
 
     # ── Fitness / Music → always route to Geraldine regardless of state ──────
-    if any(kw in low_text for kw in _FITNESS_KEYWORDS):
+    if any(kw in low_text for kw in _FITNESS_KEYWORDS) or _FITNESS_PATTERN.search(low_text):
         logger.info(f"Fitness keyword detected [{wa_id}] — routing to Geraldine")
         if user_state.status == st.Status.COMPLETED:
             st.reset_conversation(wa_id)

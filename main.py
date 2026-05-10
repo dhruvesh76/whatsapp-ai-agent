@@ -24,6 +24,11 @@ OWN_PHONE_IDS: set[str] = set()
 _seen_message_ids: set[str] = set()
 
 
+@app.get("/version")
+async def version():
+    import pipeline
+    return {"fitness_keywords": pipeline._FITNESS_KEYWORDS[:3], "build": "f51c3e4-plus"}
+
 @app.get("/webhook")
 async def verify_webhook(request: Request):
     params = dict(request.query_params)
