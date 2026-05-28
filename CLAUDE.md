@@ -34,10 +34,12 @@ mutation { serviceInstanceDeployV2(serviceId: SERVICE_ID, environmentId: ENV_ID)
 ```
 
 ```
-Service ID:     22c79eeb-7017-4def-8aa4-86e7ed21436a
-Environment ID: bfecc20a-1e97-41ea-a0a7-fc784aa4f84b
-Railway token:  f47e0130-e6ef-450a-853d-da5b52da70f3 (also in deploy_railway.js)
+Project ID:     05f0189a-4c7f-4204-bab3-b01b3903920a
+Service ID:     03732ac4-6df2-4da9-840a-2d27ac922681
+Environment ID: 28017ed9-c7c5-40be-87c3-17671471cabd
+Railway token:  e038b562-87b8-4e08-a8cb-95b90da22b6d (account: scale.mediax@gmail.com)
 GitHub repo:    dhruvesh76/whatsapp-ai-agent
+App URL:        https://agent-production-aee4.up.railway.app
 ```
 
 Use `node --use-system-ca` when running the deploy script on Windows (Railway's cert requires system CA).
@@ -143,7 +145,7 @@ Step 3 (confirms will buy, category not yet given): "There are 2 categories of t
 ## Environment Variables
 
 ```
-OPENAI_API_KEY
+GROQ_API_KEY
 WHATSAPP_ACCESS_TOKEN
 WHATSAPP_PHONE_NUMBER_ID
 WHATSAPP_VERIFY_TOKEN=nanyang_verify_2024

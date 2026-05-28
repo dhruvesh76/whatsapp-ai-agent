@@ -4,14 +4,14 @@ import logging
 import random
 import re
 
-from openai import AsyncOpenAI
+from groq import AsyncGroq
 
 from system_prompt import SYSTEM_PROMPT
 import state as st
 
 logger = logging.getLogger(__name__)
 
-client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY", "").strip())
+client = AsyncGroq(api_key=os.getenv("GROQ_API_KEY", "").strip())
 OWNER_NUMBER = "919265335430"
 
 # ── Hard-coded rule: NT tutor number ─────────────────────────────────────────
@@ -494,7 +494,7 @@ _faq_history: dict[str, list[dict]] = {}
 
 async def _classify(system: str, text: str) -> str:
     resp = await client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="llama-3.3-70b-versatile",
         messages=[
             {"role": "system", "content": system},
             {"role": "user", "content": text},
@@ -525,7 +525,7 @@ async def run_geraldine(wa_id: str, text: str) -> str:
     user_state.history.append({"role": "user", "content": text})
 
     resp = await client.chat.completions.create(
-        model="gpt-4o",
+        model="llama-3.3-70b-versatile",
         messages=[{"role": "system", "content": SYSTEM_PROMPT}] + user_state.history,
         temperature=0.3,
     )
@@ -560,7 +560,7 @@ async def run_faq(wa_id: str, text: str) -> str:
     _faq_history[wa_id].append({"role": "user", "content": text})
 
     resp = await client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="llama-3.3-70b-versatile",
         messages=[{"role": "system", "content": FAQ_SYSTEM_PROMPT}] + _faq_history[wa_id][-10:],
         temperature=0.3,
     )
@@ -673,7 +673,7 @@ async def _send_completion_summary(wa_id: str, history: list[dict]):
     )
     try:
         resp = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="llama-3.3-70b-versatile",
             messages=[
                 {
                     "role": "system",
